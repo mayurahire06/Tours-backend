@@ -1,8 +1,9 @@
 package com.mh.backend.service.impl;
 
-//import com.mh.backend.entity.PasswordResetToken;
+import com.mh.backend.entity.PasswordResetToken;
 import com.mh.backend.entity.User;
-//import com.mh.backend.repository.PasswordResetTokenRepository;
+
+import com.mh.backend.repository.PasswordResetTokenRepository;
 import com.mh.backend.repository.UserRepository;
 import com.mh.backend.service.ForgotPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     @Autowired
     private UserRepository userRepository;
 
-//    @Autowired
-//    private PasswordResetTokenRepository tokenRepository;
+    @Autowired
+    private PasswordResetTokenRepository tokenRepository;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -43,15 +44,15 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
             }
 
             // Delete any existing tokens for this email
-            userRepository.deleteByEmail(email);
+            //userRepository.deleteByEmail(email);
 
             // Generate new token
             String token = UUID.randomUUID().toString();
             LocalDateTime expiryDate = LocalDateTime.now().plusHours(1); // Token expires in 1 hour
 
             // Save token
-//            PasswordResetToken resetToken = new PasswordResetToken(token, email, expiryDate);
-//            tokenRepository.save(resetToken);
+            PasswordResetToken resetToken = new PasswordResetToken(token, email, expiryDate);
+            tokenRepository.save(resetToken);
 
             // Send email
             sendResetEmail(email, token);

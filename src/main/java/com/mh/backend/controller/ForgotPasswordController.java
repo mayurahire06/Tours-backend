@@ -18,7 +18,7 @@ public class ForgotPasswordController {
     @PostMapping("/forgot-password")
     public ResponseEntity<Map<String, String>> forgotPassword(@RequestBody Map<String, String> request) {
         String email = request.get("email");
-        System.out.println("request from "+ request.get(email));
+        System.out.println("request from "+ request.get("email"));
 
         if (email == null || email.trim().isEmpty()) {
             Map<String, String> response = new HashMap<>();

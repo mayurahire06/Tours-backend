@@ -44,7 +44,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
             }
 
             // Delete any existing tokens for this email
-            //userRepository.deleteByEmail(email);
+            tokenRepository.deleteByEmail(email);
 
             // Generate new token
             String token = UUID.randomUUID().toString();
@@ -70,7 +70,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
         message.setSubject("Password Reset Request - Tour & Travels");
 
         String resetUrl = frontendBaseUrl + "/reset-password?token=" + token;
-
+        System.out.println("resetURL "+ resetUrl);
         String emailBody = String.format("""
             Dear User,
 
@@ -88,56 +88,56 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
             """, resetUrl);
 
         message.setText(emailBody);
-        message.setFrom("noreply@tourtravels.com");
+        message.setFrom("mayurahire863@gmail.com");
 
         mailSender.send(message);
     }
 
-//    public boolean resetPassword(String token, String newPassword) {
-//        try {
-//            Optional<PasswordResetToken> tokenOptional = tokenRepository.findByToken(token);
-//
-//            if (!tokenOptional.isPresent()) {
-//                return false;
-//            }
-//
-//            PasswordResetToken resetToken = tokenOptional.get();
-//
-//            // Check if token is expired or already used
-//            if (resetToken.isExpired() || resetToken.isUsed()) {
-//                return false;
-//            }
-//
-//            // Find user by email
-//            Optional<User> userOptional = userRepository.findByEmail(resetToken.getEmail());
-//            if (!userOptional.isPresent()) {
-//                return false;
-//            }
-//
-//            // Update password
-//            User user = userOptional.get();
-//            user.setPassword(passwordEncoder.encode(newPassword));
-//            userRepository.save(user);
-//
-//            // Mark token as used
-//            resetToken.setUsed(true);
-//            tokenRepository.save(resetToken);
-//
-//            return true;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
+    public boolean resetPassword(String token, String newPassword) {
+        try {
+            Optional<PasswordResetToken> tokenOptional = tokenRepository.findByToken(token);
 
-//    public boolean validateToken(String token) {
-//        Optional<PasswordResetToken> tokenOptional = tokenRepository.findByToken(token);
-//
-//        if (!tokenOptional.isPresent()) {
-//            return false;
-//        }
-//
-//        PasswordResetToken resetToken = tokenOptional.get();
-//        return !resetToken.isExpired() && !resetToken.isUsed();
-//    }
+            if (!tokenOptional.isPresent()) {
+                return false;
+            }
+
+            PasswordResetToken resetToken = tokenOptional.get();
+
+            // Check if token is expired or already used
+            if (resetToken.isExpired() || resetToken.isUsed()) {
+                return false;
+            }
+
+            // Find user by email
+            Optional<User> userOptional = userRepository.findByEmail(resetToken.getEmail());
+            if (!userOptional.isPresent()) {
+                return false;
+            }
+
+            // Update password
+            User user = userOptional.get();
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+
+            // Mark token as used
+            resetToken.setUsed(true);
+            tokenRepository.save(resetToken);
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean validateToken(String token) {
+        Optional<PasswordResetToken> tokenOptional = tokenRepository.findByToken(token);
+
+        if (!tokenOptional.isPresent()) {
+            return false;
+        }
+
+        PasswordResetToken resetToken = tokenOptional.get();
+        return !resetToken.isExpired() && !resetToken.isUsed();
+    }
 }

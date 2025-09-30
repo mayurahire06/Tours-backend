@@ -1,14 +1,18 @@
 package com.mh.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.persistence.Index;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "tour",
+        indexes = {
+                @Index(name = "idx_tour_category", columnList = "category_id") //columnList must be the exact database column name, not the Java field name.
+        })
 public class Tour {
 
     @Id

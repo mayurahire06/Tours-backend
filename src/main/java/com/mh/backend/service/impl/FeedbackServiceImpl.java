@@ -3,6 +3,7 @@ package com.mh.backend.service.impl;
 import com.mh.backend.entity.Feedback;
 import com.mh.backend.entity.User;
 import com.mh.backend.exception.ResourceNotFoundException;
+import com.mh.backend.repository.BookingRepository;
 import com.mh.backend.repository.FeedbackRepository;
 import com.mh.backend.repository.UserRepository;
 import com.mh.backend.service.FeedbackService;
@@ -17,11 +18,13 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
     private final UserRepository userRepository;
+    private final BookingRepository bookingRepository;
 
     @Autowired
-    public FeedbackServiceImpl(FeedbackRepository feedbackRepository, UserRepository userRepository) {
+    public FeedbackServiceImpl(FeedbackRepository feedbackRepository, UserRepository userRepository, BookingRepository bookingRepository) {
         this.feedbackRepository = feedbackRepository;
         this.userRepository = userRepository;
+        this.bookingRepository = bookingRepository;
     }
 
     @Override
@@ -30,6 +33,11 @@ public class FeedbackServiceImpl implements FeedbackService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + userId));
 
+        // ✅ Check if user has a confirmed booking
+        boolean hasBooking = bookingRepository.existsByUserId(userId);
+        if (!hasBooking) {
+            throw new IllegalStateException("User must have a confirmed booking to submit feedback");
+        }
         Feedback feedback = new Feedback();
         feedback.setUser(user);
         feedback.setFeedCat(feedCat);

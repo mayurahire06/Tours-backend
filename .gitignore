@@ -1,36 +1,69 @@
-HELP.md
+# =========================
+# Maven
+# =========================
 target/
 .mvn/wrapper/maven-wrapper.jar
+
+# Keep target folders inside src if needed
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+# =========================
+# Spring Boot
+# =========================
+HELP.md
+
+# Logs
+*.log
+
+# Application secrets
+application.properties
+application.yml
+
+# =========================
+# STS / Eclipse
+# =========================
 .apt_generated
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
-.sts4-cache
+.sts4-cache/
 
-### IntelliJ IDEA ###
-.idea
+# =========================
+# IntelliJ IDEA
+# =========================
+.idea/
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+# =========================
+# NetBeans
+# =========================
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 build/
+
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
+# =========================
+# VS Code
+# =========================
 .vscode/
 
-###My custom files ###
+# =========================
+# OS Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Custom Uploads
+# =========================
 uploads/

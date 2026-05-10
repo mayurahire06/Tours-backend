@@ -153,8 +153,10 @@ public class BookingServiceImpl implements BookingService {
                 .collect(Collectors.toList());
     }
 
-
     private BookingDTO convertToDTO(Booking booking) {
+
+        Tour tour = booking.getTour(); // 👈 IMPORTANT
+
         List<TravelerDTO> travelerDTOs = booking.getTravelers().stream()
                 .map(traveler -> new TravelerDTO(
                         traveler.getId(),
@@ -168,14 +170,39 @@ public class BookingServiceImpl implements BookingService {
         return new BookingDTO(
                 booking.getId(),
                 booking.getUser().getId(),
-                booking.getTour().getId(),
+                tour.getId(),
                 booking.getMembers(),
                 booking.getBookingDate(),
                 booking.getTotalPrice(),
                 booking.getTransportation(),
                 travelerDTOs
+
         );
     }
+
+
+    //    private BookingDTO convertToDTO(Booking booking) {
+    //        List<TravelerDTO> travelerDTOs = booking.getTravelers().stream()
+    //                .map(traveler -> new TravelerDTO(
+    //                        traveler.getId(),
+    //                        traveler.getName(),
+    //                        traveler.getAge(),
+    //                        traveler.getGender(),
+    //                        traveler.getBooking().getId()
+    //                ))
+    //                .collect(Collectors.toList());
+    //
+    //        return new BookingDTO(
+    //                booking.getId(),
+    //                booking.getUser().getId(),
+    //                booking.getTour().getId(),
+    //                booking.getMembers(),
+    //                booking.getBookingDate(),
+    //                booking.getTotalPrice(),
+    //                booking.getTransportation(),
+    //                travelerDTOs
+    //        );
+    //    }
 }
 
 //@Service

@@ -1,6 +1,7 @@
 package com.mh.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mh.backend.enums.BookingStatus;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ public class Booking {
 
     private String transportation;
 
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status;
+
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Traveler> travelers = new ArrayList<>();
@@ -57,6 +61,21 @@ public class Booking {
     public void setTransportation(String transportation) { this.transportation = transportation; }
     public List<Traveler> getTravelers() { return travelers; }
     public void setTravelers(List<Traveler> travelers) { this.travelers = travelers; }
+
+    @PrePersist
+    public void setDefaultStatus() {
+        if (this.status == null) {
+            this.status = BookingStatus.PENDING;
+        }
+    }
+
+    public BookingStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BookingStatus status) {
+        this.status = status;
+    }
 
     // Helper method to add a traveler
     public void addTraveler(Traveler traveler) {

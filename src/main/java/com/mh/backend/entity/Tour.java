@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.persistence.Index;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +58,13 @@ public class Tour {
     @Column(nullable = false)
     private String itinerary; // daily plan
 
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
+
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Image> images = new ArrayList<>();
@@ -88,6 +96,14 @@ public class Tour {
         this.images = images;
         this.bookings = bookings;
         this.category = category;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Long getId() {

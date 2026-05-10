@@ -83,6 +83,27 @@ public class TourController {
     }
 
 
+    //this method handles the exception
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<?> deleteTour(@PathVariable Long id) {
+//        try {
+//            tourService.deleteTour(id);
+//            return ResponseEntity.noContent().build();
+//        } catch (EntityNotFoundException ex) {
+//            return ResponseEntity
+//                    .status(HttpStatus.NOT_FOUND)
+//                    .body(ex.getMessage());
+//        }
+//    }
+
+    //this will be the json
+//    {
+//        "status": 404,
+//            "error": "Tour not found",
+//            "message": "Tour not found with ID: 5"
+//    }
+
+
     // Get all tours or filter by category
 //    @GetMapping
 //    public ResponseEntity<List<TourResponseDTO>> getTours(@RequestParam(required = false) Long catId) {

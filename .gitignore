@@ -68,7 +68,9 @@ Thumbs.db
 # =========================
 uploads/
 
-mvnw
-.mvn
-mvnw.cmd
-.gitattributes
+
+#do not add
+#mvnw
+#.mvn
+#mvnw.cmd
+#.gitattributes

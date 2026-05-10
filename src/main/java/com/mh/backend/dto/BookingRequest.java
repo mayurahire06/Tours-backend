@@ -2,6 +2,7 @@ package com.mh.backend.dto;
 
 import java.time.LocalDate;
 
+//booking dto
 public class BookingRequest {
     private Long userId;
     private Integer members;

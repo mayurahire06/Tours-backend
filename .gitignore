@@ -67,3 +67,8 @@ Thumbs.db
 # Custom Uploads
 # =========================
 uploads/
+
+mvnw
+.mvn
+mvnw.cmd
+.gitattributes
